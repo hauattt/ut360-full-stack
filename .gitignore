@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+venv/
+*.egg-info/
+
+# Data files - exclude large CSV/parquet
+*.csv
+*.parquet
+
+# Node
+node_modules/
+build/
+dist/
+
+# IDEs & OS
+.vscode/
+.idea/
+.DS_Store
+
+# Logs
+*.log
+
+# Database
+*.db
+dump.rdb

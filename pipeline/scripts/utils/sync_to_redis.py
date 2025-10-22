@@ -90,10 +90,13 @@ def load_recommendations(r):
         df = df.merge(df_profile, on='isdn', how='left', suffixes=('', '_profile'))
 
     # Calculate priority score
-    df['priority_score'] = (
-        df.get('customer_value_score', 0) *
-        df.get('advance_readiness_score', 0) / 100
-    ).round(2)
+    if 'customer_value_score' in df.columns and 'advance_readiness_score' in df.columns:
+        df['priority_score'] = (
+            df['customer_value_score'].fillna(0) *
+            df['advance_readiness_score'].fillna(0) / 100
+        ).round(2)
+    else:
+        df['priority_score'] = 0.0
 
     # Replace NaN with empty string for Redis
     df = df.replace({np.nan: ''})
@@ -280,10 +283,13 @@ def create_indexes(r):
     df = df.merge(df_profile, on='isdn', how='left', suffixes=('', '_profile'))
 
     # Calculate priority score
-    df['priority_score'] = (
-        df.get('customer_value_score', 0) *
-        df.get('advance_readiness_score', 0) / 100
-    ).round(2)
+    if 'customer_value_score' in df.columns and 'advance_readiness_score' in df.columns:
+        df['priority_score'] = (
+            df['customer_value_score'].fillna(0) *
+            df['advance_readiness_score'].fillna(0) / 100
+        ).round(2)
+    else:
+        df['priority_score'] = 0.0
 
     pipe = r.pipeline()
 
